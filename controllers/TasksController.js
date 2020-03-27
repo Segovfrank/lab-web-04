@@ -1,13 +1,26 @@
 const Task = require('../models/Task');
 
 exports.done = (req, res) => {
-  let id = req.params.id;
-  Task.find(id)
-  .then((task) => {
-    return Task.markAsDone(task);
-  })
-  .then((result) => {
-    res.redirect('/');
+  let task = {};
+  task.id = req.params.id;
+  Task.find(task.id).then((task) => {
+    if(req.xhr || req.headers.accept.indexOf('json') > -1){
+      Task.markAsDone(task).then((task) => res.json(task));
+    }else{
+      res.redirect('/');
+    }
+  });
+}
+
+exports.delete = (req, res) => {
+  let task = {};
+  task.id = req.params.id;
+  Task.delete(task.id).then((task) => {
+    if(req.xhr || req.headers.accept.indexOf('json') > -1){
+      res.json(task);
+    }else{
+      res.redirect('/');
+    }
   });
 }
 

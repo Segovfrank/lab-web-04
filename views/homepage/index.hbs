@@ -26,13 +26,13 @@
   <div class="row">
     <div class="col-lg-12" id="tasksList">
       {{#each tasks}}
-      <div class="card my-3 {{#eq status 'done' }}bg-light{{/eq}}">
+      <div class="card my-3 {{#eq status 'done' }}bg-light{{/eq}} item-{{id}}">
         <div class="card-body">
-          <p class="card-text">{{ description }}</p>
+          <p class="card-text">{{ description }}
+            <a onclick="deleteTask({{id}});"><img src="assets/icons8-delete-bin-48.png" style="float: right;"/></a>
+          </p>
           {{#eq status 'pending'}}
-            <form action="/tasks/{{id}}/done" method="POST">
-              <a href="javascript:;" onclick="parentNode.submit();" class="card-link">Done</a>
-            </form>
+              <a href="javascript:;" onclick="doneTask({{id}});" class="card-link done-{{id}}">Done</a>
           {{/eq}}
         </div>
       </div>
